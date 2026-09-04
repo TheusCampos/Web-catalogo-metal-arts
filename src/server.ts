@@ -65,10 +65,10 @@ export default {
           // TanStack Start injeta scripts inline durante o SSR
           "script-src 'self' 'unsafe-inline'",
           // Tailwind e componentes Radix precisam de estilos inline
-          "style-src 'self' 'unsafe-inline'",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           // Supabase API + Storage
           "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
-          "font-src 'self' data:",
+          "font-src 'self' data: https://fonts.gstatic.com",
           "frame-src 'none'",
           "object-src 'none'",
           "base-uri 'self'",
