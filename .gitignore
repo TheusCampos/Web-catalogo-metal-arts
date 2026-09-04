@@ -17,6 +17,9 @@ dist-ssr
 *.local
 .env
 .agents
+.output
+
+openspec/
 
 
 # Wrangler / Cloudflare

@@ -22,18 +22,36 @@ export const Route = createFileRoute("/")({
   pendingMs: 0,
   head: () => ({
     meta: [
-      { title: "Catálogo Online — Marcenaria Fina, Madeira Maciça e Design Sustentável" },
+      {
+        title:
+          "Serralheria Metal Arts — Móveis em Madeira Maciça, Serralheria Artística e Design Nobre",
+      },
       {
         name: "description",
         content:
-          "Conheça nosso ateliê de marcenaria fina, móveis e peças em madeira maciça nobre com acabamento natural. Pedidos e orçamentos direto pelo WhatsApp.",
+          "Móveis sob medida, marcenaria fina e serralheria artística de alto padrão. Peças exclusivas em madeira maciça nobre (Cumaru, Peroba Rosa) e ferro. Orçamento direto no WhatsApp.",
       },
-      { property: "og:title", content: "Catálogo Online — Marcenaria Fina & Madeira Maciça" },
+      {
+        name: "keywords",
+        content:
+          "serralheria metal arts, serralheria artística, marcenaria fina, móveis madeira maciça, móveis estilo industrial, móveis ferro e madeira, cumaru, peroba rosa, móveis sob medida, mesas nobres",
+      },
+      {
+        property: "og:title",
+        content: "Serralheria Metal Arts — Móveis em Madeira Maciça e Serralheria Artística",
+      },
       {
         property: "og:description",
-        content: "Móveis e peças exclusivas em madeira nobre certificada com atendimento no WhatsApp.",
+        content:
+          "Móveis sob medida e peças exclusivas em madeira nobre e ferro com acabamento artesanal e atendimento no WhatsApp.",
+      },
+      { property: "og:url", content: "https://www.serralheriametalarts.com.br/" },
+      {
+        property: "og:image",
+        content: "https://www.serralheriametalarts.com.br/img-footer.jpg",
       },
     ],
+    links: [{ rel: "canonical", href: "https://www.serralheriametalarts.com.br/" }],
   }),
   component: HomePage,
 });

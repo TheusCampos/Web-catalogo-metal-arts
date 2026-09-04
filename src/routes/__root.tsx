@@ -85,17 +85,72 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "@id": "https://www.serralheriametalarts.com.br/#organization",
+      name: "Serralheria Metal Arts",
+      url: "https://www.serralheriametalarts.com.br/",
+      logo: "https://www.serralheriametalarts.com.br/logo-metal_arts.png",
+      image: "https://www.serralheriametalarts.com.br/img-footer.jpg",
+      description:
+        "Ateliê de serralheria artística, marcenaria fina e móveis sob medida em madeira maciça nobre e design industrial.",
+      priceRange: "$$",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "BR",
+      },
+      areaServed: "BR",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.serralheriametalarts.com.br/#website",
+      url: "https://www.serralheriametalarts.com.br/",
+      name: "Serralheria Metal Arts",
+      publisher: {
+        "@id": "https://www.serralheriametalarts.com.br/#organization",
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://www.serralheriametalarts.com.br/catalogo?busca={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ],
+};
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "author", content: "Catálogo da loja" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
+      { name: "author", content: "Serralheria Metal Arts" },
+      { name: "publisher", content: "Serralheria Metal Arts" },
+      { name: "theme-color", content: "#1B3B2B" },
+      { name: "geo.region", content: "BR" },
+      { property: "og:site_name", content: "Serralheria Metal Arts" },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "pt_BR" },
+      {
+        property: "og:image",
+        content: "https://www.serralheriametalarts.com.br/logo-metal_arts.png",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content: "https://www.serralheriametalarts.com.br/logo-metal_arts.png",
+      },
     ],
     links: [
+      { rel: "icon", type: "image/png", href: "/logo-metal_arts.png" },
+      { rel: "apple-touch-icon", href: "/logo-metal_arts.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -116,6 +171,10 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body>
         {children}

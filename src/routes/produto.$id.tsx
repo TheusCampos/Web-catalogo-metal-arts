@@ -31,43 +31,64 @@ export const Route = createFileRoute("/produto/$id")({
     const data = await context.queryClient.ensureQueryData(catalogQueryOptions);
     const product = data.products.find((item) => item.id === params.id);
     if (!product) throw notFound();
-    return { name: product.name, description: product.description, image: product.image_url };
+    return {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      image: product.image_url,
+      price: product.price,
+      promo_price: product.promo_price,
+      wood_type: product.wood_type,
+      dimensions: product.dimensions,
+      sku: product.sku,
+      stock_quantity: product.stock_quantity,
+    };
   },
   pendingComponent: ProductPendingSkeleton,
   pendingMs: 150,
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [{ title: "Produto indisponível" }, { name: "robots", content: "noindex" }],
       };
     }
+    const finalPrice = loaderData.promo_price ?? loaderData.price;
+    const woodInfo = loaderData.wood_type ? ` em ${loaderData.wood_type}` : "";
     const description =
       loaderData.description?.slice(0, 155) ||
-      `Veja fotos, detalhes e peça ${loaderData.name} pelo WhatsApp.`;
+      `${loaderData.name}${woodInfo} — Serralheria Metal Arts. Peça sob medida em madeira nobre com atendimento e orçamento direto pelo WhatsApp.`;
     const image =
       loaderData.image?.startsWith("https://") || loaderData.image?.startsWith("http://")
         ? loaderData.image
-        : null;
+        : "https://www.serralheriametalarts.com.br/logo-metal_arts.png";
+    const canonicalUrl = `https://www.serralheriametalarts.com.br/produto/${params.id}`;
+
     return {
       meta: [
-        { title: `${loaderData.name} — detalhes do produto` },
+        { title: `${loaderData.name} — Serralheria Metal Arts` },
         { name: "description", content: description },
-        { property: "og:title", content: `${loaderData.name} — detalhes do produto` },
+        {
+          name: "keywords",
+          content: `${loaderData.name}, serralheria metal arts, ${loaderData.wood_type || "madeira maciça"}, móveis sob medida, móveis de madeira e ferro`,
+        },
+        { property: "og:title", content: `${loaderData.name} — Serralheria Metal Arts` },
         { property: "og:description", content: description },
         { property: "og:type", content: "product" },
-        { property: "og:site_name", content: "Catálogo" },
+        { property: "og:site_name", content: "Serralheria Metal Arts" },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "product:price:amount", content: String(finalPrice) },
+        { property: "product:price:currency", content: "BRL" },
         { name: "twitter:card", content: "summary_large_image" },
-        ...(image
-          ? [
-              { property: "og:image", content: image },
-              { property: "og:image:width", content: "1200" },
-              { property: "og:image:height", content: "630" },
-              { name: "twitter:image", content: image },
-            ]
-          : []),
+        { name: "twitter:title", content: `${loaderData.name} — Serralheria Metal Arts` },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
       ],
       links: [
-        ...(image
+        { rel: "canonical", href: canonicalUrl },
+        ...(image && image.startsWith("http")
           ? [
               {
                 rel: "preload",
@@ -214,8 +235,69 @@ function ProductPage() {
     toast.success(`${quantity}x adicionado à sua lista de compras!`);
   };
 
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: product.name,
+    image: gallery.length > 0 ? gallery : ["https://www.serralheriametalarts.com.br/logo-metal_arts.png"],
+    description: product.description || `${product.name} — Serralheria Metal Arts. Peça artesanal sob medida.`,
+    sku: product.sku || product.id,
+    brand: {
+      "@type": "Brand",
+      name: "Serralheria Metal Arts",
+    },
+    offers: {
+      "@type": "Offer",
+      url: `https://www.serralheriametalarts.com.br/produto/${product.id}`,
+      priceCurrency: "BRL",
+      price: finalPrice,
+      availability:
+        product.stock_quantity === 0
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: "Serralheria Metal Arts",
+      },
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Início",
+        item: "https://www.serralheriametalarts.com.br/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Catálogo",
+        item: "https://www.serralheriametalarts.com.br/catalogo",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: `https://www.serralheriametalarts.com.br/produto/${product.id}`,
+      },
+    ],
+  };
+
   return (
     <div className="container-page pt-20 sm:pt-24 pb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Link
         to="/catalogo"
         search={{ categoria: "", busca: "" }}

@@ -48,13 +48,33 @@ export const Route = createFileRoute("/catalogo")({
   pendingMs: 0,
   head: () => ({
     meta: [
-      { title: "Catálogo completo — produtos e novidades" },
+      { title: "Catálogo de Móveis e Peças — Serralheria Metal Arts" },
       {
         name: "description",
         content:
-          "Explore todos os produtos disponíveis, filtre por tamanho, departamento e preço e faça seu pedido direto pelo WhatsApp.",
+          "Conheça nosso catálogo completo de móveis em madeira maciça nobre, marcenaria fina e serralheria artística sob medida. Filtre por categoria e faça seu orçamento direto pelo WhatsApp.",
+      },
+      {
+        name: "keywords",
+        content:
+          "catálogo serralheria metal arts, móveis madeira maciça, mesas de jantar madeira, aparador industrial, estantes sob medida, serralheria fina",
+      },
+      {
+        property: "og:title",
+        content: "Catálogo de Móveis e Peças — Serralheria Metal Arts",
+      },
+      {
+        property: "og:description",
+        content:
+          "Móveis em madeira maciça nobre e serralheria artística sob medida com atendimento pelo WhatsApp.",
+      },
+      { property: "og:url", content: "https://www.serralheriametalarts.com.br/catalogo" },
+      {
+        property: "og:image",
+        content: "https://www.serralheriametalarts.com.br/img-footer.jpg",
       },
     ],
+    links: [{ rel: "canonical", href: "https://www.serralheriametalarts.com.br/catalogo" }],
   }),
   component: CatalogPage,
 });

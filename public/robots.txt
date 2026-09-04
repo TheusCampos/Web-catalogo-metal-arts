@@ -1,3 +1,4 @@
+# robots.txt para https://www.serralheriametalarts.com.br/
 User-agent: Googlebot
 Allow: /
 Disallow: /admin
@@ -18,3 +19,7 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /auth
+
+# Mapa do site para indexação no Google e Bing
+Sitemap: https://www.serralheriametalarts.com.br/sitemap.xml
+Host: https://www.serralheriametalarts.com.br

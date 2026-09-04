@@ -10,14 +10,16 @@ export const Route = createFileRoute("/favoritos")({
   loader: ({ context }) => context.queryClient.ensureQueryData(catalogQueryOptions),
   head: () => ({
     meta: [
-      { title: "Meus favoritos — produtos salvos" },
+      { title: "Meus Favoritos — Serralheria Metal Arts" },
       {
         name: "description",
-        content: "Os produtos que você salvou ficam aqui, prontos para pedir pelo WhatsApp.",
+        content:
+          "Suas peças e móveis favoritos da Serralheria Metal Arts salvos para orçar pelo WhatsApp.",
       },
-      { property: "og:title", content: "Meus favoritos — produtos salvos" },
-      { property: "og:description", content: "Produtos salvos no seu navegador." },
+      { name: "robots", content: "noindex, follow" },
+      { property: "og:title", content: "Meus Favoritos — Serralheria Metal Arts" },
     ],
+    links: [{ rel: "canonical", href: "https://www.serralheriametalarts.com.br/favoritos" }],
   }),
   component: FavoritesPage,
 });

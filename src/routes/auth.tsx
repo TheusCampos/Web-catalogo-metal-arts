@@ -11,11 +11,8 @@ import { Loader2 } from "lucide-react";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Acesso do lojista — painel administrativo" },
-      { name: "description", content: "Área restrita para gerenciar o catálogo da loja." },
-      { name: "robots", content: "noindex" },
-      { property: "og:title", content: "Acesso do lojista" },
-      { property: "og:description", content: "Área restrita de administração." },
+      { title: "Acesso Administrativo — Serralheria Metal Arts" },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AuthPage,
