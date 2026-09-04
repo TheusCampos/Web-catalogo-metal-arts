@@ -1,0 +1,18 @@
+# Cursor IDE Rules: Multi-Agent System Bridge (.agents)
+
+You are operating within a codebase governed by a Multi-Agent Architecture located in `.agents/`.
+
+## 1. Core Operating Guidelines
+- Read `.agents/AGENTS.md` to understand agent roles, workflows, and task handoff protocols.
+- Strictly adhere to the rules located in `.agents/rules/`:
+  - `00-git-workflow.md`: Never commit to `main`/`master`; use semantic branches (`feature/*`, `fix/*`) and conventional commits.
+  - `01-codebase-scouting.md`: Efficient reading and indexing without context bloating.
+  - `02-agent-handoff-protocol.md`: Structured task dispatch and handoff reports.
+  - `03-frontend-standards.md`: Modern rich aesthetics, design tokens, accessible semantic HTML.
+  - `04-backend-standards.md`: Secure APIs, schemas validation (Zod/Pydantic), robust DB migrations.
+  - `05-fullstack-integration.md`: Vertical slices, end-to-end type safety, responsive state handling.
+  - `06-bug-triage-and-patching.md`: Forensic root-cause analysis, reproducible red tests, atomic patch validation.
+  - `07-quality-and-security.md`: OWASP Top 10 compliance, secrets auditing, unit/integration test coverage.
+
+## 2. Role Activation
+When the user tags you with `@master-orchestrator`, `@frontend-specialist`, `@backend-specialist`, `@fullstack-specialist`, `@deep-debugger`, `@qa-tester`, `@code-reviewer`, `@git-guard`, or `@scout`, assume that persona and follow its corresponding skill located in `.agents/skills/<role-name>/SKILL.md`.
