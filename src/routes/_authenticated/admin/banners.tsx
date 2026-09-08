@@ -164,23 +164,35 @@ function AdminBanners() {
         </p>
       </div>
 
-      <Tabs defaultValue="hero">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="hero" className="flex items-center gap-1.5 text-xs">
-            <Monitor className="h-3.5 w-3.5" />
-            Hero
+      <Tabs defaultValue="hero" className="w-full space-y-4">
+        <TabsList className="grid grid-cols-2 sm:grid-cols-4 w-full h-auto p-1.5 bg-muted/70 gap-1.5 rounded-xl border border-border/60">
+          <TabsTrigger
+            value="hero"
+            className="py-2.5 px-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"
+          >
+            <Monitor className="h-4 w-4 shrink-0 text-muted-foreground group-data-[state=active]:text-primary" />
+            <span className="truncate">Hero</span>
           </TabsTrigger>
-          <TabsTrigger value="grid" className="flex items-center gap-1.5 text-xs">
-            <LayoutGrid className="h-3.5 w-3.5" />
-            Grid 4 Cards
+          <TabsTrigger
+            value="grid"
+            className="py-2.5 px-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"
+          >
+            <LayoutGrid className="h-4 w-4 shrink-0 text-muted-foreground group-data-[state=active]:text-primary" />
+            <span className="truncate">Grid 4 Cards</span>
           </TabsTrigger>
-          <TabsTrigger value="middle" className="flex items-center gap-1.5 text-xs">
-            <Image className="h-3.5 w-3.5" />
-            Banner Central
+          <TabsTrigger
+            value="middle"
+            className="py-2.5 px-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"
+          >
+            <Image className="h-4 w-4 shrink-0 text-muted-foreground group-data-[state=active]:text-primary" />
+            <span className="truncate">Banner Central</span>
           </TabsTrigger>
-          <TabsTrigger value="catalogo" className="flex items-center gap-1.5 text-xs">
-            <ImageIcon className="h-3.5 w-3.5" />
-            Catálogo
+          <TabsTrigger
+            value="catalogo"
+            className="py-2.5 px-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all"
+          >
+            <ImageIcon className="h-4 w-4 shrink-0 text-muted-foreground group-data-[state=active]:text-primary" />
+            <span className="truncate">Catálogo</span>
           </TabsTrigger>
         </TabsList>
 
@@ -225,7 +237,7 @@ function AdminBanners() {
           </div>
 
           {/* Preview das 4 posições */}
-          <div className="grid grid-cols-4 gap-2 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             {[1, 2, 3, 4].map((pos) => {
               const found = gridBanners.find((b) => b.sort_order === pos);
               return (

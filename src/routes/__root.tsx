@@ -185,11 +185,16 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function StoreChrome() {
-  // Falha de leitura não pode derrubar o site: o layout continua renderizando.
-  const { data } = useQuery({ ...catalogQueryOptions, throwOnError: false });
+  const loaderData = Route.useLoaderData();
+  // Falha de leitura não pode derrubar o site: o layout continua renderizando com fallback do loader
+  const { data } = useQuery({
+    ...catalogQueryOptions,
+    initialData: loaderData,
+    throwOnError: false,
+  });
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdminArea = pathname.startsWith("/admin") || pathname.startsWith("/auth");
-  const settings = data?.settings ?? null;
+  const settings = data?.settings ?? loaderData?.settings ?? null;
 
   return (
     <>

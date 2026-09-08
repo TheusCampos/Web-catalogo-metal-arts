@@ -40,6 +40,7 @@ export function Header({ settings }: { settings: StoreSettings | null }) {
 
   return (
     <header
+      suppressHydrationWarning
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
         isTransparent
@@ -47,20 +48,27 @@ export function Header({ settings }: { settings: StoreSettings | null }) {
           : "bg-background/95 backdrop-blur border-b border-border text-foreground shadow-sm",
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+      <div className="container-page flex h-16 sm:h-20 items-center justify-between gap-4 transition-all duration-300">
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 group"
+          onClick={() => setOpen(false)}
+          suppressHydrationWarning
+        >
           {settings?.logo_url ? (
             <img
               src={settings.logo_url}
               alt={settings.name ?? "Logo da loja"}
-              width="140"
-              height="32"
-              className="h-8 w-auto max-w-[140px] object-contain"
+              width="200"
+              height="64"
+              suppressHydrationWarning
+              className="h-12 sm:h-16 w-auto max-w-[180px] sm:max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-105"
             />
           ) : (
             <span
+              suppressHydrationWarning
               className={cn(
-                "font-extrabold text-lg tracking-tight uppercase",
+                "font-extrabold text-xl tracking-tight uppercase",
                 isTransparent ? "text-white" : "text-foreground",
               )}
             >

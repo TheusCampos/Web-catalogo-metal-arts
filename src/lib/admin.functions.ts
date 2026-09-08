@@ -6,10 +6,8 @@ import type { Database } from "@/integrations/supabase/types";
 export type ProductRow = Database["public"]["Tables"]["products"]["Row"];
 export type CategoryRow = Database["public"]["Tables"]["categories"]["Row"];
 export type BannerRow = Database["public"]["Tables"]["banners"]["Row"];
-export type LeadRow = Database["public"]["Tables"]["customer_leads"]["Row"];
-export type SettingsRow = Database["public"]["Tables"]["store_settings"]["Row"];
 
-export const getAdminProducts = createServerFn({ method: "GET" })
+const getAdminProducts = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => {
     const { data, error } = await supabaseAdmin
@@ -21,7 +19,7 @@ export const getAdminProducts = createServerFn({ method: "GET" })
     return data;
   });
 
-export const saveAdminProduct = createServerFn({ method: "POST" })
+const saveAdminProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: Database["public"]["Tables"]["products"]["Insert"] & { id?: string }) => input)
   .handler(async ({ data: input }) => {
@@ -64,7 +62,7 @@ export const saveAdminProduct = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const deleteAdminProduct = createServerFn({ method: "POST" })
+const deleteAdminProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((id: string) => id)
   .handler(async ({ data: id }) => {
@@ -73,7 +71,7 @@ export const deleteAdminProduct = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const getAdminCategories = createServerFn({ method: "GET" })
+const getAdminCategories = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => {
     const { data, error } = await supabaseAdmin.from("categories").select("*").order("sort_order");
@@ -81,7 +79,7 @@ export const getAdminCategories = createServerFn({ method: "GET" })
     return data;
   });
 
-export const saveAdminCategory = createServerFn({ method: "POST" })
+const saveAdminCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator(
     (input: Database["public"]["Tables"]["categories"]["Insert"] & { id?: string }) => input,
@@ -96,7 +94,7 @@ export const saveAdminCategory = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const deleteAdminCategory = createServerFn({ method: "POST" })
+const deleteAdminCategory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((id: string) => id)
   .handler(async ({ data: id }) => {
@@ -105,7 +103,7 @@ export const deleteAdminCategory = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const getAdminBanners = createServerFn({ method: "GET" })
+const getAdminBanners = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => {
     const { data, error } = await supabaseAdmin.from("banners").select("*").order("sort_order");
@@ -113,7 +111,7 @@ export const getAdminBanners = createServerFn({ method: "GET" })
     return data;
   });
 
-export const saveAdminBanner = createServerFn({ method: "POST" })
+const saveAdminBanner = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: Database["public"]["Tables"]["banners"]["Insert"] & { id?: string }) => input)
   .handler(async ({ data: input }) => {
@@ -126,7 +124,7 @@ export const saveAdminBanner = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const deleteAdminBanner = createServerFn({ method: "POST" })
+const deleteAdminBanner = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((id: string) => id)
   .handler(async ({ data: id }) => {
@@ -135,7 +133,7 @@ export const deleteAdminBanner = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const getAdminLeads = createServerFn({ method: "GET" })
+const getAdminLeads = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => {
     const { data, error } = await supabaseAdmin
@@ -147,7 +145,7 @@ export const getAdminLeads = createServerFn({ method: "GET" })
     return data;
   });
 
-export const deleteAdminLead = createServerFn({ method: "POST" })
+const deleteAdminLead = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((id: string) => id)
   .handler(async ({ data: id }) => {
@@ -156,7 +154,7 @@ export const deleteAdminLead = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-export const getAdminSettings = createServerFn({ method: "GET" })
+const getAdminSettings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async () => {
     const { data, error } = await supabaseAdmin
@@ -168,7 +166,7 @@ export const getAdminSettings = createServerFn({ method: "GET" })
     return data;
   });
 
-export const saveAdminSettings = createServerFn({ method: "POST" })
+const saveAdminSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator(
     (input: Database["public"]["Tables"]["store_settings"]["Update"] & { id: string }) => input,

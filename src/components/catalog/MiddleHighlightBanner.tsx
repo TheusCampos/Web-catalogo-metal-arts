@@ -24,14 +24,14 @@ export function MiddleHighlightBanner({ banner, settings }: MiddleHighlightBanne
   const hasOverlayContent = Boolean(title && title.trim().length > 0);
 
   const Content = (
-    <div className="relative w-full overflow-hidden rounded-3xl bg-neutral-900 aspect-[16/7] sm:aspect-[21/8] min-h-[260px] sm:min-h-[340px] flex items-center shadow-lg border border-border/60 group">
+    <div className="relative w-full overflow-hidden rounded-3xl bg-neutral-900 aspect-[4/3] sm:aspect-[21/8] min-h-[200px] sm:min-h-[340px] flex items-center shadow-lg border border-border/60 group">
       {/* Imagem de Fundo com zoom suave */}
       <img
         src={imageUrl}
         alt={title || "Banner Destaque"}
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105"
+        className="absolute inset-0 w-full h-full object-contain sm:object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-105"
       />
 
       {/* Gradiente de proteção de leitura */}

@@ -5,7 +5,7 @@ import type { Database } from "@/integrations/supabase/types";
 
 export type StoreSettings = Database["public"]["Tables"]["store_settings"]["Row"];
 export type Banner = Database["public"]["Tables"]["banners"]["Row"];
-export type Category = Database["public"]["Tables"]["categories"]["Row"];
+type Category = Database["public"]["Tables"]["categories"]["Row"];
 export type Product = Database["public"]["Tables"]["products"]["Row"];
 
 export type CatalogData = {
@@ -55,7 +55,7 @@ export interface AboutSectionData {
   differentials: DifferentialItem[];
 }
 
-export const DEFAULT_SERVICES: ServiceCardItem[] = [
+const DEFAULT_SERVICES: ServiceCardItem[] = [
   {
     badge: "Projetos Sob Medida",
     title: "Móveis e Bancadas Personalizadas",
@@ -79,7 +79,7 @@ export const DEFAULT_SERVICES: ServiceCardItem[] = [
   },
 ];
 
-export const DEFAULT_WOODS: NobleWoodItem[] = [
+const DEFAULT_WOODS: NobleWoodItem[] = [
   {
     id: "cumaru",
     name: "Cumaru Dourado",
@@ -118,7 +118,7 @@ export const DEFAULT_WOODS: NobleWoodItem[] = [
   },
 ];
 
-export const DEFAULT_DIFFERENTIALS: DifferentialItem[] = [
+const DEFAULT_DIFFERENTIALS: DifferentialItem[] = [
   {
     title: "100% Madeira Legal & Rastreável",
     description: "Espécies nobres e de reaproveitamento histórico selecionadas com rigor.",

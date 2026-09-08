@@ -34,7 +34,6 @@ export function WoodTypesShowcase({ settings }: WoodServicesShowcaseProps) {
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-muted/10 to-background py-16 sm:py-24 border-y border-border/40 isolate">
       {/* Ornamentos botânicos reais nos cantos da seção */}
       <WoodcraftCornerDecor position="top-left" variant="leaves" size="lg" className="opacity-90" />
-      <WoodcraftCornerDecor position="bottom-right" variant="leaves" size="lg" className="opacity-85" />
 
       <div className="container-page relative z-10 space-y-16 sm:space-y-20">
         {/* Cabeçalho Humanizado & Minimalista Gerenciável no Admin */}

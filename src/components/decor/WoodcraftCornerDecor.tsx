@@ -1,7 +1,7 @@
 import React from "react";
 
-export type CornerPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
-export type CornerVariant = "leaves" | "tools" | "hybrid" | "subtle-branch" | "plane" | "saw";
+type CornerPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+type CornerVariant = "leaves" | "tools" | "hybrid" | "subtle-branch" | "plane" | "saw";
 
 interface WoodcraftCornerDecorProps {
   position?: CornerPosition;
@@ -13,7 +13,7 @@ interface WoodcraftCornerDecorProps {
 /**
  * Vetor de Ferramenta: Plaina Manual de Madeira
  */
-export function HandPlaneSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function HandPlaneSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -51,7 +51,7 @@ export function HandPlaneSvg({ className = "w-full h-full text-stone-700/40 dark
 /**
  * Vetor de Ferramenta: Disco de Serra Circular
  */
-export function CircularBladeSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function CircularBladeSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -75,7 +75,7 @@ export function CircularBladeSvg({ className = "w-full h-full text-stone-700/40 
 /**
  * Vetor de Ferramentas: Esquadro & Formão
  */
-export function SquareChiselSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function SquareChiselSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 100 100"

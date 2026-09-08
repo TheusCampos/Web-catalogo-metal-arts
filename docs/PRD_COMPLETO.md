@@ -200,6 +200,8 @@ sequenceDiagram
 - [x] Vitrine interativa de madeiras nobres e seção editorial institucional.
 - [x] Endurecimento de segurança (RLS, CSRF, Security Headers, Zod).
 - [x] Índices de performance de banco e cache de mídia de 1 ano.
+- [x] Otimização profunda de performance (remoção de dead code, componentes órfãos e estabilização de hidratação SSR).
+- [x] Melhorias de UX/UI responsiva no painel de administração e vitrine móvel (banner central adaptativo).
 
 ### Fase 3 — Expansão Comercial (Futuro 🔮)
 - [ ] Módulo de múltiplos atendentes de WhatsApp (distribuição automática de leads entre vendedores).
