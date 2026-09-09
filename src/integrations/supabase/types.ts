@@ -82,6 +82,9 @@ export type Database = {
           created_at: string;
           email: string | null;
           id: string;
+          marketing_consent: boolean;
+          consent_at: string | null;
+          privacy_version: string | null;
           name: string | null;
           phone: string | null;
           product_interest: string | null;
@@ -91,6 +94,9 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           id?: string;
+          marketing_consent?: boolean;
+          consent_at?: string | null;
+          privacy_version?: string | null;
           name?: string | null;
           phone?: string | null;
           product_interest?: string | null;
@@ -100,6 +106,9 @@ export type Database = {
           created_at?: string;
           email?: string | null;
           id?: string;
+          marketing_consent?: boolean;
+          consent_at?: string | null;
+          privacy_version?: string | null;
           name?: string | null;
           phone?: string | null;
           product_interest?: string | null;
@@ -206,6 +215,7 @@ export type Database = {
           address: string | null;
           announcement_text: string | null;
           catalog_banner_url: string | null;
+          cnpj: string | null;
           created_at: string;
           facebook_url: string | null;
           id: string;
@@ -234,6 +244,7 @@ export type Database = {
           address?: string | null;
           announcement_text?: string | null;
           catalog_banner_url?: string | null;
+          cnpj?: string | null;
           created_at?: string;
           facebook_url?: string | null;
           id?: string;
@@ -262,6 +273,7 @@ export type Database = {
           address?: string | null;
           announcement_text?: string | null;
           catalog_banner_url?: string | null;
+          cnpj?: string | null;
           created_at?: string;
           facebook_url?: string | null;
           id?: string;
@@ -279,6 +291,42 @@ export type Database = {
           trust_badge_4?: string | null;
           updated_at?: string;
           whatsapp_number?: string;
+        };
+        Relationships: [];
+      };
+      audit_logs: {
+        Row: {
+          action: string;
+          admin_email: string | null;
+          admin_id: string | null;
+          created_at: string;
+          details: Json | null;
+          id: string;
+          ip_address: string | null;
+          resource: string;
+          resource_id: string | null;
+        };
+        Insert: {
+          action: string;
+          admin_email?: string | null;
+          admin_id?: string | null;
+          created_at?: string;
+          details?: Json | null;
+          id?: string;
+          ip_address?: string | null;
+          resource: string;
+          resource_id?: string | null;
+        };
+        Update: {
+          action?: string;
+          admin_email?: string | null;
+          admin_id?: string | null;
+          created_at?: string;
+          details?: Json | null;
+          id?: string;
+          ip_address?: string | null;
+          resource?: string;
+          resource_id?: string | null;
         };
         Relationships: [];
       };

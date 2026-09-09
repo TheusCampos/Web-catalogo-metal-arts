@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery, useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
+import type { Product, CatalogData } from "@/lib/store.functions";
 import {
   ArrowLeft,
   Check,
@@ -12,7 +13,7 @@ import {
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";
-import { catalogQueryOptions } from "@/lib/queries";
+import { catalogQueryOptions, productDetailQueryOptions } from "@/lib/queries";
 import { Button } from "@/components/ui/button";
 import { FavoriteButton } from "@/components/catalog/FavoriteButton";
 import { ShareButton } from "@/components/catalog/ShareButton";
@@ -25,11 +26,11 @@ import { buildProductWhatsAppLink } from "@/lib/whatsapp";
 import { recordLead } from "@/lib/store.functions";
 import { ProductPendingSkeleton } from "@/components/catalog/ProductPendingSkeleton";
 import { resolveColorHex } from "@/lib/colors";
+import { getOptimizedImageUrl } from "@/lib/image";
 
 export const Route = createFileRoute("/produto/$id")({
   loader: async ({ context, params }) => {
-    const data = await context.queryClient.ensureQueryData(catalogQueryOptions);
-    const product = data.products.find((item) => item.id === params.id);
+    const product = await context.queryClient.ensureQueryData(productDetailQueryOptions(params.id));
     if (!product) throw notFound();
     return {
       id: product.id,
@@ -121,7 +122,8 @@ export const Route = createFileRoute("/produto/$id")({
 
 function ProductPage() {
   const { id } = Route.useParams();
-  const { data } = useSuspenseQuery(catalogQueryOptions);
+  const { data: product } = useSuspenseQuery(productDetailQueryOptions(id));
+  const { data: catalogData } = useQuery(catalogQueryOptions);
   const isFavorite = useFavoritesStore((s) => s.isFavorite);
   const toggle = useFavoritesStore((s) => s.toggle);
   const add = useCartStore((s) => s.add);
@@ -130,8 +132,6 @@ function ProductPage() {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
   const [activeImage, setActiveImage] = useState(0);
-
-  const product = data.products.find((item) => item.id === id);
 
   const sizesList = useMemo(() => {
     if (!product) return [];
@@ -166,11 +166,11 @@ function ProductPage() {
   }, [product]);
 
   const related = useMemo(() => {
-    if (!product) return [];
-    return data.products
-      .filter((item) => item.id !== product.id && item.category_id === product.category_id)
+    if (!product) return [] as Product[];
+    return ((catalogData?.products ?? []) as Product[])
+      .filter((item: Product) => item.id !== product.id && item.category_id === product.category_id)
       .slice(0, 4);
-  }, [data.products, product]);
+  }, [catalogData?.products, product]);
 
   if (!product) {
     return (
@@ -187,7 +187,7 @@ function ProductPage() {
 
   const hasPromo = product.promo_price != null && Number(product.promo_price) > 0;
   const finalPrice = hasPromo ? Number(product.promo_price) : product.price;
-  const category = data.categories.find((item) => item.id === product.category_id);
+  const category = (catalogData?.categories ?? []).find((item) => item.id === product.category_id);
   const cover = gallery[activeImage] ?? gallery[0];
 
   const handleBuyWhatsApp = () => {
@@ -200,7 +200,7 @@ function ProductPage() {
       return;
     }
 
-    const rawNumber = data.settings?.whatsapp_number || "5511999999999";
+    const rawNumber = catalogData?.settings?.whatsapp_number || "5511999999999";
     const url = buildProductWhatsAppLink({
       whatsappNumber: rawNumber,
       productName: product.name,
@@ -208,7 +208,7 @@ function ProductPage() {
       qty: quantity,
       size: selectedSize || null,
       color: selectedColor || null,
-      storeName: data.settings?.name,
+      storeName: catalogData?.settings?.name,
     });
 
     recordLead({
@@ -239,8 +239,12 @@ function ProductPage() {
     "@context": "https://schema.org/",
     "@type": "Product",
     name: product.name,
-    image: gallery.length > 0 ? gallery : ["https://www.serralheriametalarts.com.br/logo-metal_arts.png"],
-    description: product.description || `${product.name} — Serralheria Metal Arts. Peça artesanal sob medida.`,
+    image:
+      gallery.length > 0
+        ? gallery
+        : ["https://www.serralheriametalarts.com.br/logo-metal_arts.png"],
+    description:
+      product.description || `${product.name} — Serralheria Metal Arts. Peça artesanal sob medida.`,
     sku: product.sku || product.id,
     brand: {
       "@type": "Brand",
@@ -610,7 +614,7 @@ function ProductPage() {
             | Produtos Relacionados
           </h2>
           <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {related.map((item) => (
+            {related.map((item: Product) => (
               <ProductCard
                 key={item.id}
                 product={item}

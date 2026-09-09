@@ -14,7 +14,7 @@ const DIFF_ICONS = [TreePine, Hammer, Sparkles, ShieldCheck];
 export function CraftEditorialSplit({ settings }: CraftEditorialSplitProps) {
   const whatsappNumber = settings?.whatsapp_number || "5511999999999";
   const customOrderText = encodeURIComponent(
-    `Olá! Estava navegando na ${settings?.name || "loja"} e gostaria de solicitar um orçamento para um projeto sob medida em madeira nobre.`
+    `Olá! Estava navegando na ${settings?.name || "loja"} e gostaria de solicitar um orçamento para um projeto sob medida em madeira nobre.`,
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${customOrderText}`;
 
@@ -24,16 +24,24 @@ export function CraftEditorialSplit({ settings }: CraftEditorialSplitProps) {
   return (
     <section className="relative overflow-hidden bg-[#F6F2EB] dark:bg-[#1A1714] py-16 sm:py-24 border-y border-[#E8DFD3] dark:border-stone-800/80 isolate">
       {/* Ornamentos botânicos reais nos cantos */}
-      <WoodcraftCornerDecor position="top-right" variant="leaves" size="lg" className="opacity-80 dark:opacity-40" />
-      <WoodcraftCornerDecor position="bottom-left" variant="leaves" size="lg" className="opacity-75 dark:opacity-35" />
+      <WoodcraftCornerDecor
+        position="top-right"
+        variant="leaves"
+        size="lg"
+        className="opacity-80 dark:opacity-40"
+      />
+      <WoodcraftCornerDecor
+        position="bottom-left"
+        variant="leaves"
+        size="lg"
+        className="opacity-75 dark:opacity-35"
+      />
 
       <div className="container-page relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
           {/* Coluna Esquerda: Imagem Gerenciável no Admin com Forma Geométrica e Selo Redondo */}
           <div className="lg:col-span-6 relative">
             <div className="relative mx-auto max-w-lg lg:max-w-none">
-              
               {/* 1. Forma geométrica atrás da imagem mostrando metade da forma (estilo arquitetônico ateliê) */}
               <div
                 className="absolute -top-10 -left-10 sm:-top-14 sm:-left-14 w-60 h-60 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-[#E2D2BE] via-[#D8C5AE] to-[#CDAF92]/60 dark:from-[#2B231B] dark:to-[#1F1A14] border-2 border-[#C9B399] dark:border-stone-700/70 z-0 shadow-sm pointer-events-none flex items-center justify-center"
@@ -107,7 +115,6 @@ export function CraftEditorialSplit({ settings }: CraftEditorialSplitProps) {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -171,7 +178,6 @@ export function CraftEditorialSplit({ settings }: CraftEditorialSplitProps) {
               </Button>
             </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -70,11 +70,20 @@ export function MiddleHighlightBanner({ banner, settings }: MiddleHighlightBanne
   return (
     <section className="container-page py-10 sm:py-14">
       {isExternal ? (
-        <a href={ctaLink} target="_blank" rel="noopener noreferrer" className="block focus:outline-none">
+        <a
+          href={ctaLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block focus:outline-none"
+        >
           {Content}
         </a>
       ) : (
-        <Link to="/catalogo" search={{ categoria: "", busca: "" }} className="block focus:outline-none">
+        <Link
+          to="/catalogo"
+          search={{ categoria: "", busca: "" }}
+          className="block focus:outline-none"
+        >
           {Content}
         </Link>
       )}

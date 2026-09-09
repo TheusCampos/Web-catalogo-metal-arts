@@ -45,8 +45,18 @@ export function SocialProofCarousel({ settings }: SocialProofCarouselProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-muted/10 to-background py-16 sm:py-20 border-y border-border/40 isolate">
       {/* Ornamentos Botânicos e Ferramentas nos Cantos */}
-      <WoodcraftCornerDecor position="top-right" variant="leaves" size="lg" className="opacity-30 dark:opacity-20" />
-      <WoodcraftCornerDecor position="bottom-left" variant="tools" size="md" className="opacity-20 dark:opacity-10" />
+      <WoodcraftCornerDecor
+        position="top-right"
+        variant="leaves"
+        size="lg"
+        className="opacity-30 dark:opacity-20"
+      />
+      <WoodcraftCornerDecor
+        position="bottom-left"
+        variant="tools"
+        size="md"
+        className="opacity-20 dark:opacity-10"
+      />
 
       <div className="container-page relative z-10">
         <div className="text-center max-w-xl mx-auto mb-12 space-y-1.5">
@@ -81,7 +91,8 @@ export function SocialProofCarousel({ settings }: SocialProofCarouselProps) {
                 </div>
 
                 <p className="text-xs font-semibold text-emerald-900/80 dark:text-emerald-300/80">
-                  Adquiriu: <span className="font-bold underline underline-offset-2">{review.piece}</span>
+                  Adquiriu:{" "}
+                  <span className="font-bold underline underline-offset-2">{review.piece}</span>
                 </p>
 
                 <p className="text-xs sm:text-sm text-foreground/90 italic leading-relaxed">

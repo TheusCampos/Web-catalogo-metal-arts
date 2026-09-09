@@ -27,6 +27,9 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { StoreTheme } from "@/components/StoreTheme";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { CookieBanner } from "@/features/privacy/components/CookieBanner";
+import { initializeAnalytics } from "@/lib/analytics";
+import { initializeMarketing } from "@/lib/marketing";
 
 function NotFoundComponent() {
   return (
@@ -211,6 +214,7 @@ function StoreChrome() {
           </main>
           <Footer settings={settings} />
           <WhatsAppFloat settings={settings} />
+          <CookieBanner />
         </div>
       )}
     </>
@@ -220,6 +224,20 @@ function StoreChrome() {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+
+  useEffect(() => {
+    // Inicialização condicional baseada nas preferências salvas
+    initializeAnalytics();
+    initializeMarketing();
+
+    const handleConsentChange = () => {
+      initializeAnalytics();
+      initializeMarketing();
+    };
+
+    window.addEventListener("metal_arts_consent_changed", handleConsentChange);
+    return () => window.removeEventListener("metal_arts_consent_changed", handleConsentChange);
+  }, []);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {

@@ -19,7 +19,12 @@ export function PromoBannerGrid({ banners }: PromoBannerGridProps) {
     <section className="relative overflow-hidden container-page pt-12 pb-6 isolate">
       {/* Ornamentos de canto botânicos */}
       <WoodcraftCornerDecor position="top-left" variant="leaves" size="md" className="opacity-30" />
-      <WoodcraftCornerDecor position="bottom-right" variant="tools" size="md" className="opacity-25" />
+      <WoodcraftCornerDecor
+        position="bottom-right"
+        variant="tools"
+        size="md"
+        className="opacity-25"
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
         {promoItems.map((banner, idx) => (

@@ -26,6 +26,7 @@ export const Route = createFileRoute("/_authenticated/admin/configuracoes")({
 type FormState = {
   // 1. Dados Gerais
   name: string;
+  cnpj: string;
   logo_url: string;
   primary_color: string;
   whatsapp_number: string;
@@ -63,6 +64,7 @@ function AdminSettings() {
 
     setForm({
       name: settings.data.name,
+      cnpj: settings.data.cnpj ?? "",
       logo_url: settings.data.logo_url ?? "",
       primary_color: settings.data.primary_color,
       whatsapp_number: settings.data.whatsapp_number,
@@ -102,6 +104,7 @@ function AdminSettings() {
       await adminApi.saveSettings({
         id: settings.data.id,
         name: form.name.trim() || "Minha Loja",
+        cnpj: form.cnpj.trim() || null,
         logo_url: form.logo_url || null,
         primary_color: form.primary_color,
         whatsapp_number: form.whatsapp_number.replace(/\D/g, ""),
@@ -178,15 +181,24 @@ function AdminSettings() {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full space-y-6">
         <TabsList className="grid grid-cols-1 sm:grid-cols-3 w-full max-w-3xl h-auto p-1 bg-muted/70 gap-1 rounded-xl">
-          <TabsTrigger value="geral" className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+          <TabsTrigger
+            value="geral"
+            className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2"
+          >
             <Store className="w-4 h-4" />
             Dados Gerais
           </TabsTrigger>
-          <TabsTrigger value="servicos" className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+          <TabsTrigger
+            value="servicos"
+            className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2"
+          >
             <Hammer className="w-4 h-4" />
             Nossos Serviços & Madeiras
           </TabsTrigger>
-          <TabsTrigger value="sobre" className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+          <TabsTrigger
+            value="sobre"
+            className="py-2.5 font-bold text-xs uppercase tracking-wider flex items-center gap-2"
+          >
             <BookOpen className="w-4 h-4" />
             Sobre a Empresa
           </TabsTrigger>
@@ -198,13 +210,24 @@ function AdminSettings() {
             <CardContent className="space-y-6 p-6">
               <div className="space-y-4">
                 <h2 className="text-lg font-semibold border-b pb-2">Identidade da Loja</h2>
-                <div className="space-y-2">
-                  <Label htmlFor="storeName">Nome da Loja</Label>
-                  <Input
-                    id="storeName"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="storeName">Nome da Loja</Label>
+                    <Input
+                      id="storeName"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="storeCnpj">CNPJ da Empresa (Opcional)</Label>
+                    <Input
+                      id="storeCnpj"
+                      value={form.cnpj}
+                      onChange={(e) => setForm({ ...form, cnpj: e.target.value })}
+                      placeholder="00.000.000/0000-00"
+                    />
+                  </div>
                 </div>
 
                 <ImageField
@@ -254,7 +277,8 @@ function AdminSettings() {
                     placeholder="Ex: 12 (0 para ocultar)"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Define o número de parcelas exibido nos cards de produto. Se 0, o texto de parcelamento fica oculto.
+                    Define o número de parcelas exibido nos cards de produto. Se 0, o texto de
+                    parcelamento fica oculto.
                   </p>
                 </div>
               </div>
@@ -558,7 +582,10 @@ function AdminSettings() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   {form.about_differentials.map((diff, idx) => (
-                    <div key={idx} className="p-4 rounded-xl border border-border/70 bg-muted/20 space-y-3">
+                    <div
+                      key={idx}
+                      className="p-4 rounded-xl border border-border/70 bg-muted/20 space-y-3"
+                    >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                           Diferencial 0{idx + 1}

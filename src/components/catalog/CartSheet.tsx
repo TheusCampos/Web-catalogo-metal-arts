@@ -35,6 +35,7 @@ export function CartSheet() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const lines = useMemo(() => {
@@ -75,6 +76,8 @@ export function CartSheet() {
           name: name.trim(),
           phone,
           source: "order",
+          marketing_consent: marketingConsent,
+          privacy_version: "v1.0",
           ...(email.trim() ? { email: email.trim() } : {}),
           ...(lines[0]?.product.id ? { product_interest: lines[0].product.id } : {}),
         },
@@ -274,6 +277,24 @@ export function CartSheet() {
                   autoComplete="email"
                 />
               </div>
+
+              <div className="flex items-start space-x-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="cart-marketing-consent"
+                  checked={marketingConsent}
+                  onChange={(e) => setMarketingConsent(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+                />
+                <Label
+                  htmlFor="cart-marketing-consent"
+                  className="text-xs text-muted-foreground leading-snug cursor-pointer font-normal"
+                >
+                  Quero receber novidades, peças exclusivas e ofertas especiais da Serralheria Metal
+                  Arts via WhatsApp ou e-mail.
+                </Label>
+              </div>
+
               <div className="rounded-xl border border-border p-3 text-sm">
                 <div className="flex items-center justify-between font-semibold">
                   <span>Total</span>

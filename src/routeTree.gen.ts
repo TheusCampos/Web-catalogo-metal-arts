@@ -13,10 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as DireitosTitularRouteImport } from './routes/direitos-titular'
 import { Route as FavoritosRouteImport } from './routes/favoritos'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as ProdutoIdRouteImport } from './routes/produto.$id'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAuditoriaRouteImport } from './routes/_authenticated/admin/auditoria'
 import { Route as AuthenticatedAdminBannersRouteImport } from './routes/_authenticated/admin/banners'
 import { Route as AuthenticatedAdminCategoriasRouteImport } from './routes/_authenticated/admin/categorias'
 import { Route as AuthenticatedAdminConfiguracoesRouteImport } from './routes/_authenticated/admin/configuracoes'
@@ -42,9 +46,24 @@ const CatalogoRoute = CatalogoRouteImport.update({
   path: '/catalogo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DireitosTitularRoute = DireitosTitularRouteImport.update({
+  id: '/direitos-titular',
+  path: '/direitos-titular',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FavoritosRoute = FavoritosRouteImport.update({
   id: '/favoritos',
   path: '/favoritos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
@@ -62,6 +81,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminAuditoriaRoute =
+  AuthenticatedAdminAuditoriaRouteImport.update({
+    id: '/auditoria',
+    path: '/auditoria',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminBannersRoute =
   AuthenticatedAdminBannersRouteImport.update({
     id: '/banners',
@@ -96,9 +121,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/catalogo': typeof CatalogoRoute
+  '/cookies': typeof CookiesRoute
+  '/direitos-titular': typeof DireitosTitularRoute
   '/favoritos': typeof FavoritosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/produto/$id': typeof ProdutoIdRoute
+  '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
   '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/categorias': typeof AuthenticatedAdminCategoriasRoute
   '/admin/configuracoes': typeof AuthenticatedAdminConfiguracoesRoute
@@ -110,8 +139,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/catalogo': typeof CatalogoRoute
+  '/cookies': typeof CookiesRoute
+  '/direitos-titular': typeof DireitosTitularRoute
   '/favoritos': typeof FavoritosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/produto/$id': typeof ProdutoIdRoute
+  '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
   '/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/admin/categorias': typeof AuthenticatedAdminCategoriasRoute
   '/admin/configuracoes': typeof AuthenticatedAdminConfiguracoesRoute
@@ -125,9 +158,13 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/catalogo': typeof CatalogoRoute
+  '/cookies': typeof CookiesRoute
+  '/direitos-titular': typeof DireitosTitularRoute
   '/favoritos': typeof FavoritosRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/produto/$id': typeof ProdutoIdRoute
+  '/_authenticated/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
   '/_authenticated/admin/banners': typeof AuthenticatedAdminBannersRoute
   '/_authenticated/admin/categorias': typeof AuthenticatedAdminCategoriasRoute
   '/_authenticated/admin/configuracoes': typeof AuthenticatedAdminConfiguracoesRoute
@@ -141,9 +178,13 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/catalogo'
+    | '/cookies'
+    | '/direitos-titular'
     | '/favoritos'
+    | '/privacidade'
     | '/admin'
     | '/produto/$id'
+    | '/admin/auditoria'
     | '/admin/banners'
     | '/admin/categorias'
     | '/admin/configuracoes'
@@ -155,8 +196,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/catalogo'
+    | '/cookies'
+    | '/direitos-titular'
     | '/favoritos'
+    | '/privacidade'
     | '/produto/$id'
+    | '/admin/auditoria'
     | '/admin/banners'
     | '/admin/categorias'
     | '/admin/configuracoes'
@@ -169,9 +214,13 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/catalogo'
+    | '/cookies'
+    | '/direitos-titular'
     | '/favoritos'
+    | '/privacidade'
     | '/_authenticated/admin'
     | '/produto/$id'
+    | '/_authenticated/admin/auditoria'
     | '/_authenticated/admin/banners'
     | '/_authenticated/admin/categorias'
     | '/_authenticated/admin/configuracoes'
@@ -185,7 +234,10 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   CatalogoRoute: typeof CatalogoRoute
+  CookiesRoute: typeof CookiesRoute
+  DireitosTitularRoute: typeof DireitosTitularRoute
   FavoritosRoute: typeof FavoritosRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   ProdutoIdRoute: typeof ProdutoIdRoute
 }
 
@@ -219,11 +271,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/direitos-titular': {
+      id: '/direitos-titular'
+      path: '/direitos-titular'
+      fullPath: '/direitos-titular'
+      preLoaderRoute: typeof DireitosTitularRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/favoritos': {
       id: '/favoritos'
       path: '/favoritos'
       fullPath: '/favoritos'
       preLoaderRoute: typeof FavoritosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -245,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/auditoria': {
+      id: '/_authenticated/admin/auditoria'
+      path: '/auditoria'
+      fullPath: '/admin/auditoria'
+      preLoaderRoute: typeof AuthenticatedAdminAuditoriaRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/_authenticated/admin/banners': {
@@ -286,6 +366,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAuditoriaRoute: typeof AuthenticatedAdminAuditoriaRoute
   AuthenticatedAdminBannersRoute: typeof AuthenticatedAdminBannersRoute
   AuthenticatedAdminCategoriasRoute: typeof AuthenticatedAdminCategoriasRoute
   AuthenticatedAdminConfiguracoesRoute: typeof AuthenticatedAdminConfiguracoesRoute
@@ -296,6 +377,7 @@ interface AuthenticatedAdminRouteRouteChildren {
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminAuditoriaRoute: AuthenticatedAdminAuditoriaRoute,
     AuthenticatedAdminBannersRoute: AuthenticatedAdminBannersRoute,
     AuthenticatedAdminCategoriasRoute: AuthenticatedAdminCategoriasRoute,
     AuthenticatedAdminConfiguracoesRoute: AuthenticatedAdminConfiguracoesRoute,
@@ -325,7 +407,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   CatalogoRoute: CatalogoRoute,
+  CookiesRoute: CookiesRoute,
+  DireitosTitularRoute: DireitosTitularRoute,
   FavoritosRoute: FavoritosRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   ProdutoIdRoute: ProdutoIdRoute,
 }
 export const routeTree = rootRouteImport

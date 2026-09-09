@@ -1,5 +1,6 @@
+import React from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import type { Product } from "@/lib/store.functions";
+import type { Product, CatalogProductItem } from "@/lib/store.functions";
 import { formatPrice } from "@/lib/format";
 import { FavoriteButton } from "./FavoriteButton";
 import { ImageIcon, ShoppingBag, Check, MessageCircle, Package } from "lucide-react";
@@ -9,16 +10,21 @@ import { useQuery } from "@tanstack/react-query";
 import { catalogQueryOptions } from "@/lib/queries";
 import { buildProductWhatsAppLink } from "@/lib/whatsapp";
 import { recordLead } from "@/lib/store.functions";
+import { getOptimizedImageUrl, getProductSrcSet, CARD_IMAGE_SIZES } from "@/lib/image";
 
-export function ProductCard({
+export interface ProductCardProps {
+  product: Product | CatalogProductItem;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
+  priority?: boolean;
+}
+
+export const ProductCard = React.memo(function ProductCard({
   product,
   isFavorite,
   onToggleFavorite,
-}: {
-  product: Product;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
-}) {
+  priority = false,
+}: ProductCardProps) {
   const navigate = useNavigate();
   const { data } = useQuery({ ...catalogQueryOptions, throwOnError: false });
   const settings = data?.settings;
@@ -103,10 +109,14 @@ export function ProductCard({
         <div className="relative aspect-square w-full overflow-hidden bg-muted/40">
           {product.image_url ? (
             <img
-              src={product.image_url}
+              src={getOptimizedImageUrl(product.image_url, { width: 600, quality: 80 })}
+              srcSet={getProductSrcSet(product.image_url) || undefined}
+              sizes={CARD_IMAGE_SIZES}
               alt={product.name}
-              loading="lazy"
+              loading={priority ? "eager" : "lazy"}
               decoding="async"
+              width={400}
+              height={400}
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
@@ -211,4 +221,4 @@ export function ProductCard({
       />
     </article>
   );
-}
+});

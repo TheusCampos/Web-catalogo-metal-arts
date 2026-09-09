@@ -125,7 +125,8 @@ const DEFAULT_DIFFERENTIALS: DifferentialItem[] = [
   },
   {
     title: "Marcenaria Fina e Ferragens Robustas",
-    description: "Encaixes tradicionais, lixamento em múltiplos grãos e estruturas feitas para atravessar gerações.",
+    description:
+      "Encaixes tradicionais, lixamento em múltiplos grãos e estruturas feitas para atravessar gerações.",
   },
 ];
 
@@ -280,9 +281,169 @@ function checkRateLimit() {
   }
 }
 
+export type CatalogProductItem = {
+  id: string;
+  name: string;
+  price: number;
+  promo_price?: number | null;
+  image_url?: string | null;
+  category_id?: string | null;
+  stock_quantity?: number | null;
+  sizes?: string[] | string | null;
+  colors?: string[] | string | null;
+  dimensions?: string | null;
+  is_featured?: boolean;
+  is_active?: boolean;
+  sort_order?: number;
+  created_at: string;
+};
+
+export type PaginatedProductsResult = {
+  items: CatalogProductItem[];
+  total: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+};
+
+export const catalogFilterSchema = z.object({
+  page: z.number().int().min(1).default(1),
+  limit: z.number().int().min(1).max(50).default(12),
+  categoria: z.string().optional().default(""),
+  busca: z.string().optional().default(""),
+  tamanho: z.string().optional().default(""),
+  faixaPreco: z.string().optional().default(""),
+  apenasPromo: z.boolean().optional().default(false),
+  ordem: z.string().optional().default("relevancia"),
+});
+
+export type CatalogFilterParams = {
+  page?: number | undefined;
+  limit?: number | undefined;
+  categoria?: string | undefined;
+  busca?: string | undefined;
+  tamanho?: string | undefined;
+  faixaPreco?: string | undefined;
+  apenasPromo?: boolean | undefined;
+  ordem?: string | undefined;
+};
+
 /**
- * Uma única chamada traz tudo que as páginas públicas precisam.
- * Simples e barato: o catálogo de uma loja única cabe em poucas linhas.
+ * Consulta otimizada do catálogo com filtros e paginação no PostgreSQL.
+ * Seleciona somente colunas necessárias para os cards, sem trafegar descrições ou galerias.
+ */
+export const getProductsCatalog = createServerFn({ method: "GET" })
+  .validator((params: Partial<CatalogFilterParams> | undefined) =>
+    catalogFilterSchema.parse(params ?? {}),
+  )
+  .handler(async ({ data: params }): Promise<PaginatedProductsResult> => {
+    checkRateLimit();
+    const supabase = publicClient();
+
+    const page = params.page;
+    const limit = params.limit;
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    let query = supabase
+      .from("products")
+      .select(
+        "id, name, price, promo_price, image_url, category_id, stock_quantity, sizes, colors, is_featured, sort_order, created_at",
+        { count: "exact" },
+      )
+      .eq("is_active", true);
+
+    if (params.categoria) {
+      query = query.eq("category_id", params.categoria);
+    }
+
+    if (params.busca && params.busca.trim()) {
+      const term = params.busca.trim();
+      query = query.ilike("name", `%${term}%`);
+    }
+
+    if (params.apenasPromo) {
+      query = query.not("promo_price", "is", null).gt("promo_price", 0);
+    }
+
+    if (params.faixaPreco === "ate100") {
+      query = query.lte("price", 100);
+    } else if (params.faixaPreco === "100a300") {
+      query = query.gte("price", 100).lte("price", 300);
+    } else if (params.faixaPreco === "acima300") {
+      query = query.gte("price", 300);
+    }
+
+    if (params.ordem === "menor_preco") {
+      query = query.order("price", { ascending: true });
+    } else if (params.ordem === "maior_preco") {
+      query = query.order("price", { ascending: false });
+    } else if (params.ordem === "recentes") {
+      query = query.order("created_at", { ascending: false });
+    } else {
+      // Relevância padrão: sort_order asc, depois created_at desc
+      query = query
+        .order("sort_order", { ascending: true })
+        .order("created_at", { ascending: false });
+    }
+
+    query = query.range(from, to);
+
+    const { data, count, error } = await query;
+    if (error) throw new Error(error.message);
+
+    let items = (data ?? []) as CatalogProductItem[];
+
+    // Filtro refinado de tamanho caso informado
+    if (params.tamanho) {
+      const filterSize = params.tamanho.toUpperCase().trim();
+      items = items.filter((p) => {
+        const rawSizes = p.sizes;
+        let pSizes: string[] = [];
+        if (Array.isArray(rawSizes)) {
+          pSizes = rawSizes.map((s) => String(s).toUpperCase().trim());
+        } else if (typeof rawSizes === "string") {
+          pSizes = rawSizes.split(",").map((s) => s.toUpperCase().trim());
+        }
+        return pSizes.includes(filterSize);
+      });
+    }
+
+    const total = count ?? items.length;
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+
+    return {
+      items,
+      total,
+      totalPages,
+      page,
+      limit,
+    };
+  });
+
+/**
+ * Carrega exclusivamente o produto solicitado com todas as suas informações ricas
+ * (descrição, galeria, especificações, dimensões, estoque, acabamento).
+ */
+export const getProductById = createServerFn({ method: "GET" })
+  .validator((id: string) => id)
+  .handler(async ({ data: id }): Promise<Product | null> => {
+    checkRateLimit();
+    const supabase = publicClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", id)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (error) throw new Error(error.message);
+    return data as Product | null;
+  });
+
+/**
+ * Consulta de metadados institucionais e produtos em destaque.
+ * Otimizada para não trafegar colunas pesadas nos cards.
  */
 export const getCatalog = createServerFn({ method: "GET" }).handler(
   async (): Promise<CatalogData> => {
@@ -295,7 +456,9 @@ export const getCatalog = createServerFn({ method: "GET" }).handler(
       supabase.from("categories").select("*").order("sort_order"),
       supabase
         .from("products")
-        .select("*")
+        .select(
+          "id, category_id, name, price, promo_price, image_url, images, is_active, is_featured, sort_order, stock_quantity, sizes, colors, wood_type, dimensions, created_at, updated_at",
+        )
         .eq("is_active", true)
         .order("sort_order")
         .order("created_at", { ascending: false }),
@@ -308,21 +471,23 @@ export const getCatalog = createServerFn({ method: "GET" }).handler(
       settings: settingsRes.data ?? null,
       banners: bannersRes.data ?? [],
       categories: categoriesRes.data ?? [],
-      products: productsRes.data ?? [],
+      products: (productsRes.data ?? []) as Product[],
     };
   },
 );
 
-/** Schema de validação para leads — impede inputs maliciosos */
+/** Schema de validação para leads com suporte a consentimento LGPD */
 const leadSchema = z.object({
   name: z.string().max(200).optional(),
   phone: z.string().max(30).optional(),
   email: z.string().email("E-mail inválido").max(254).optional().or(z.literal("")),
   product_interest: z.string().uuid().optional().or(z.literal("")),
   source: z.enum(["order", "newsletter"]).default("order"),
+  marketing_consent: z.boolean().default(false),
+  privacy_version: z.string().default("v1.0"),
 });
 
-/** Registra intenção de compra do cliente no banco de dados */
+/** Registra intenção de compra do cliente no banco com registro de consentimento LGPD */
 export const recordLead = createServerFn({ method: "POST" })
   .validator((params: z.input<typeof leadSchema>) => leadSchema.parse(params))
   .handler(async ({ data: params }) => {
@@ -335,9 +500,11 @@ export const recordLead = createServerFn({ method: "POST" })
         email: params.email || null,
         product_interest: params.product_interest || null,
         source: params.source,
+        marketing_consent: params.marketing_consent,
+        consent_at: params.marketing_consent ? new Date().toISOString() : null,
+        privacy_version: params.privacy_version,
       });
     } catch (err) {
-      // Falha silenciosa para não travar a experiência do usuário
       console.error("Erro ao gravar lead:", err);
     }
   });

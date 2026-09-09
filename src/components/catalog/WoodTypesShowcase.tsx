@@ -23,7 +23,7 @@ const SERVICE_ICONS = [Compass, TreePine, Sparkles, Hammer, Ruler];
 export function WoodTypesShowcase({ settings }: WoodServicesShowcaseProps) {
   const whatsappNumber = settings?.whatsapp_number || "5511999999999";
   const consultText = encodeURIComponent(
-    `Olá! Gostaria de saber mais sobre os serviços de marcenaria e projetos sob medida da ${settings?.name || "loja"}.`
+    `Olá! Gostaria de saber mais sobre os serviços de marcenaria e projetos sob medida da ${settings?.name || "loja"}.`,
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${consultText}`;
 
@@ -84,9 +84,7 @@ export function WoodTypesShowcase({ settings }: WoodServicesShowcaseProps) {
                     <h3 className="text-base sm:text-lg font-black uppercase tracking-tight text-foreground group-hover:text-emerald-800 dark:group-hover:text-emerald-400 transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      {service.desc}
-                    </p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{service.desc}</p>
                   </div>
 
                   <div className="pt-4 border-t border-border/40">
@@ -118,7 +116,8 @@ export function WoodTypesShowcase({ settings }: WoodServicesShowcaseProps) {
               </h3>
             </div>
             <p className="font-serif italic text-xs sm:text-sm text-muted-foreground max-w-md">
-              Selecionamos apenas espécies de manejo legal, densidade comprovada e estabilidade para o clima brasileiro.
+              Selecionamos apenas espécies de manejo legal, densidade comprovada e estabilidade para
+              o clima brasileiro.
             </p>
           </div>
 
@@ -194,7 +193,8 @@ export function WoodTypesShowcase({ settings }: WoodServicesShowcaseProps) {
               Tem uma ideia de projeto ou precisa de ajuda na escolha da madeira?
             </h4>
             <p className="text-xs sm:text-sm text-muted-foreground">
-              Envie uma foto da sua sala ou as medidas que calculamos o orçamento e indicamos a espécie perfeita.
+              Envie uma foto da sua sala ou as medidas que calculamos o orçamento e indicamos a
+              espécie perfeita.
             </p>
           </div>
 

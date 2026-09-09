@@ -237,3 +237,53 @@ CREATE INDEX IF NOT EXISTS idx_products_featured ON public.products(is_featured)
 CREATE INDEX IF NOT EXISTS idx_banners_active_sort ON public.banners(is_active, sort_order) WHERE is_active = true;
 CREATE INDEX IF NOT EXISTS idx_categories_sort ON public.categories(sort_order);
 
+
+-- Arquivo: 20260908170000_add_performance_and_lgpd_audit.sql
+-- Índices de performance, campos de consentimento LGPD, tabela de auditoria e CNPJ da loja
+CREATE INDEX IF NOT EXISTS idx_products_active_sort_created
+ON public.products (sort_order ASC, created_at DESC)
+WHERE is_active = true;
+
+CREATE INDEX IF NOT EXISTS idx_products_active_category_sort
+ON public.products (category_id, sort_order ASC, created_at DESC)
+WHERE is_active = true;
+
+CREATE INDEX IF NOT EXISTS idx_products_name_lower
+ON public.products (lower(name));
+
+ALTER TABLE public.customer_leads
+ADD COLUMN IF NOT EXISTS marketing_consent boolean NOT NULL DEFAULT false,
+ADD COLUMN IF NOT EXISTS consent_at timestamptz,
+ADD COLUMN IF NOT EXISTS privacy_version text DEFAULT 'v1.0';
+
+CREATE INDEX IF NOT EXISTS idx_customer_leads_created
+ON public.customer_leads (created_at DESC);
+
+CREATE TABLE IF NOT EXISTS public.audit_logs (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  admin_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  admin_email text,
+  action text NOT NULL,
+  resource text NOT NULL,
+  resource_id text,
+  details jsonb DEFAULT '{}'::jsonb,
+  ip_address text,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+GRANT SELECT, INSERT ON public.audit_logs TO authenticated;
+GRANT ALL ON public.audit_logs TO service_role;
+
+CREATE POLICY "audit_logs admin read" ON public.audit_logs
+  FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY "audit_logs admin insert" ON public.audit_logs
+  FOR INSERT TO authenticated WITH CHECK (true);
+
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at
+ON public.audit_logs (created_at DESC);
+
+ALTER TABLE public.store_settings
+ADD COLUMN IF NOT EXISTS cnpj text;
+

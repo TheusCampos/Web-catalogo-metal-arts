@@ -39,12 +39,20 @@ export function Footer({ settings }: { settings: StoreSettings | null }) {
   const storeName = settings?.name || "Nosso Catálogo";
 
   return (
-    <footer suppressHydrationWarning className="mt-16 relative border-t border-[#E8DFD3] dark:border-stone-800/80 bg-[#F6F2EB] dark:bg-[#1A1714] text-foreground overflow-hidden">
+    <footer
+      suppressHydrationWarning
+      className="mt-16 relative border-t border-[#E8DFD3] dark:border-stone-800/80 bg-[#F6F2EB] dark:bg-[#1A1714] text-foreground overflow-hidden"
+    >
       <div className="container-page py-12 lg:py-16 relative z-10">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Coluna 1: Marca & Redes Sociais */}
           <div className="space-y-4">
-            <Link to="/" suppressHydrationWarning className="inline-block group" aria-label={`Página inicial de ${storeName}`}>
+            <Link
+              to="/"
+              suppressHydrationWarning
+              className="inline-block group"
+              aria-label={`Página inicial de ${storeName}`}
+            >
               {settings?.logo_url ? (
                 <img
                   src={settings.logo_url}
@@ -56,7 +64,10 @@ export function Footer({ settings }: { settings: StoreSettings | null }) {
                   className="h-20 sm:h-24 w-auto max-w-[240px] object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
-                <span suppressHydrationWarning className="font-extrabold text-2xl uppercase tracking-tight text-foreground">
+                <span
+                  suppressHydrationWarning
+                  className="font-extrabold text-2xl uppercase tracking-tight text-foreground"
+                >
                   {storeName}
                 </span>
               )}
@@ -110,7 +121,10 @@ export function Footer({ settings }: { settings: StoreSettings | null }) {
             </h4>
             <ul className="space-y-2 text-xs font-semibold">
               <li>
-                <Link to="/" className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+                <Link
+                  to="/"
+                  className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+                >
                   Início
                 </Link>
               </li>
@@ -124,7 +138,10 @@ export function Footer({ settings }: { settings: StoreSettings | null }) {
                 </Link>
               </li>
               <li>
-                <Link to="/favoritos" className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+                <Link
+                  to="/favoritos"
+                  className="text-stone-600 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+                >
                   Meus Favoritos
                 </Link>
               </li>
@@ -205,11 +222,36 @@ export function Footer({ settings }: { settings: StoreSettings | null }) {
           </div>
         </div>
 
-        {/* Linha Inferior de Direitos */}
-        <div className="mt-12 pt-6 border-t border-[#E8DFD3] dark:border-stone-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-stone-500 dark:text-stone-400">
+        {/* Linha Inferior de Direitos & LGPD */}
+        <div className="mt-12 pt-6 border-t border-[#E8DFD3] dark:border-stone-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-stone-500 dark:text-stone-400">
           <p>
-            © {new Date().getFullYear()} {storeName}. Todos os direitos reservados.
+            © {new Date().getFullYear()} {storeName}
+            {settings?.cnpj ? ` · CNPJ: ${settings.cnpj}` : ""}. Todos os direitos reservados.
           </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
+            <Link
+              to="/privacidade"
+              className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+            >
+              Privacidade
+            </Link>
+            <span>·</span>
+            <Link
+              to="/cookies"
+              className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+            >
+              Cookies
+            </Link>
+            <span>·</span>
+            <Link
+              to="/direitos-titular"
+              className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+            >
+              Direitos do Titular
+            </Link>
+          </div>
+
           <p className="text-[11px]">Catálogo Online — Pedidos via WhatsApp</p>
         </div>
       </div>

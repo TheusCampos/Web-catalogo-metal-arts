@@ -13,7 +13,11 @@ interface WoodcraftCornerDecorProps {
 /**
  * Vetor de Ferramenta: Plaina Manual de Madeira
  */
-function HandPlaneSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function HandPlaneSvg({
+  className = "w-full h-full text-stone-700/40 dark:text-stone-300/30",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -51,7 +55,11 @@ function HandPlaneSvg({ className = "w-full h-full text-stone-700/40 dark:text-s
 /**
  * Vetor de Ferramenta: Disco de Serra Circular
  */
-function CircularBladeSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function CircularBladeSvg({
+  className = "w-full h-full text-stone-700/40 dark:text-stone-300/30",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -75,7 +83,11 @@ function CircularBladeSvg({ className = "w-full h-full text-stone-700/40 dark:te
 /**
  * Vetor de Ferramentas: Esquadro & Formão
  */
-function SquareChiselSvg({ className = "w-full h-full text-stone-700/40 dark:text-stone-300/30" }: { className?: string }) {
+function SquareChiselSvg({
+  className = "w-full h-full text-stone-700/40 dark:text-stone-300/30",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -90,7 +102,11 @@ function SquareChiselSvg({ className = "w-full h-full text-stone-700/40 dark:tex
         strokeWidth="2"
         strokeLinejoin="round"
       />
-      <path d="M14 24H22M14 34H26M14 44H22M14 54H26M14 64H22M14 74H26" stroke="currentColor" strokeWidth="1.2" />
+      <path
+        d="M14 24H22M14 34H26M14 44H22M14 54H26M14 64H22M14 74H26"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
       <path d="M44 14V22M54 14V26M64 14V22M74 14V26" stroke="currentColor" strokeWidth="1.2" />
       <path
         d="M38 82L68 52L72 56L42 86L38 82Z"
@@ -99,7 +115,11 @@ function SquareChiselSvg({ className = "w-full h-full text-stone-700/40 dark:tex
         fill="currentColor"
         fillOpacity="0.2"
       />
-      <path d="M68 52L82 38C84 36 88 36 90 38L92 40C94 42 94 46 92 48L78 62L68 52Z" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M68 52L82 38C84 36 88 36 90 38L92 40C94 42 94 46 92 48L78 62L68 52Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
       <path d="M38 82L34 86" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
@@ -167,7 +187,9 @@ export function WoodcraftCornerDecor({
         {variant === "hybrid" && (
           <div
             className={`absolute ${
-              isRight ? "bottom-2 left-6 sm:bottom-4 sm:left-10" : "bottom-2 right-6 sm:bottom-4 sm:right-10"
+              isRight
+                ? "bottom-2 left-6 sm:bottom-4 sm:left-10"
+                : "bottom-2 right-6 sm:bottom-4 sm:right-10"
             } w-12 h-12 sm:w-16 sm:h-16 opacity-30 dark:opacity-20 pointer-events-none`}
           >
             {isRight ? <HandPlaneSvg /> : <SquareChiselSvg />}

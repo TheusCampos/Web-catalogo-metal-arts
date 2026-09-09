@@ -7,6 +7,7 @@ import {
   Images,
   Users,
   Settings,
+  ShieldCheck,
   LogOut,
   Menu,
   ExternalLink,
@@ -29,6 +30,7 @@ const NAV = [
   { to: "/admin/categorias", label: "Categorias", icon: Tags, exact: false },
   { to: "/admin/banners", label: "Banners", icon: Images, exact: false },
   { to: "/admin/leads", label: "Leads", icon: Users, exact: false },
+  { to: "/admin/auditoria", label: "Auditoria", icon: ShieldCheck, exact: false },
   { to: "/admin/configuracoes", label: "Configurações", icon: Settings, exact: false },
 ] as const;
 
@@ -184,7 +186,12 @@ function AdminLayout() {
 
           {/* Ações Rápidas no Topo */}
           <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex text-xs font-semibold">
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="hidden sm:inline-flex text-xs font-semibold"
+            >
               <Link to="/" target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
                 Ver loja

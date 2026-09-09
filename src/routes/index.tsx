@@ -187,8 +187,18 @@ function HomePage() {
       {categoriesWithCount.length > 0 && (
         <section className="relative overflow-hidden bg-muted/15 py-16 border-y border-border/40 isolate">
           {/* Ornamentos nos cantos da seção de categorias */}
-          <WoodcraftCornerDecor position="top-left" variant="leaves" size="sm" className="opacity-30" />
-          <WoodcraftCornerDecor position="bottom-right" variant="tools" size="sm" className="opacity-25" />
+          <WoodcraftCornerDecor
+            position="top-left"
+            variant="leaves"
+            size="sm"
+            className="opacity-30"
+          />
+          <WoodcraftCornerDecor
+            position="bottom-right"
+            variant="tools"
+            size="sm"
+            className="opacity-25"
+          />
 
           <div className="container-page relative z-10">
             <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8 border-b border-border/70 pb-4">
